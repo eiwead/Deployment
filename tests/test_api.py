@@ -18,10 +18,6 @@ Base.metadata.create_all(bind=engine)  # Создаем таблицы в БД
 
 
 def override_get_db():
-    """
-    Данная функция при тестах будет подменять функцию get_db() в main.py.
-    Таким образом приложение будет подключаться к тестовой базе данных.
-    """
     try:
         db = TestingSessionLocal()
         yield db
@@ -44,10 +40,6 @@ def test_create_factory():
     assert data["factory_name"] == "testing"
 
 def test_create_exist_factory():
-    """
-    Проверка случая, когда мы пытаемся добавить существующего пользователя
-    в БД, т.е. когда данный email уже присутствует в БД.
-    """
     response = client.post(
         "/factories/",
         json={"factory_name": "testing", "factory_director": "Human", "factory_phone" : "111-111"}
@@ -63,27 +55,18 @@ def test_read_factories():
     assert data[0]["factory_name"] == "testing"
 
 def test_get_factory_by_id():
-    """
-    Тест на получение пользователя из БД по его id
-    """
     response = client.get("/factories/1")
     assert response.status_code == 200, response.text
     data = response.json()
     assert data["factory_name"] == "testing"
 
 def test_factory_not_found():
-    """
-    Проверка случая, если пользователь с таким id отсутствует в БД
-    """
     response = client.get("/factories/2")
     assert response.status_code == 404, response.text
     data = response.json()
     assert data["detail"] == "Factory not found"
 
 def test_add_product_to_factory():
-    """
-    Тест на добавление Item пользователю
-    """
     response = client.post(
         "/factories/1/products/",
         json={"product_name": "Тестовая бумага", "product_price": 100}
@@ -96,9 +79,6 @@ def test_add_product_to_factory():
 
 
 def test_get_products():
-    """
-    Тест на получение списка Item-ов из БД
-    """
     response = client.get("/products/")
     assert response.status_code == 200, response.text
     data = response.json()
@@ -107,18 +87,12 @@ def test_get_products():
     assert data[0]["factory_id"] == 1
 
 def test_get_product_by_id():
-    """
-    Тест на получение пользователя из БД по его id
-    """
     response = client.get("/products/1")
     assert response.status_code == 200, response.text
     data = response.json()
     assert data["product_name"] == "Тестовая бумага"
 
 def test_product_not_found():
-    """
-    Проверка случая, если пользователь с таким id отсутствует в БД
-    """
     response = client.get("/products/3")
     assert response.status_code == 404, response.text
     data = response.json()
@@ -184,3 +158,22 @@ def test_get_order():
     assert response.status_code == 200, response.text
     data = response.json()
     assert data[0]["amount"] == 5
+
+def test_get_order_by_id():
+    """
+    Тест на получение пользователя из БД по его id
+    """
+    response = client.get("/orders/1")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["amount"] == 5
+
+
+def test_order_not_found():
+    """
+    Проверка случая, если пользователь с таким id отсутствует в БД
+    """
+    response = client.get("/orders/3")
+    assert response.status_code == 404, response.text
+    data = response.json()
+    assert data["detail"] == "Order not found"
