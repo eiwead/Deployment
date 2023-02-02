@@ -14,7 +14,7 @@ from src.models import Factory, Product, Contract, Order
 
 # revision identifiers, used by Alembic.
 revision = 'first_data'
-down_revision = '6db530161dcf' # тут у каждого свое значение
+down_revision = '6bebbd046ac6' # тут у каждого свое значение
 branch_labels = None
 depends_on = None
 
@@ -51,7 +51,7 @@ def upgrade() -> None:
     decent = Order(amount=10, product_id=magazine.id, contract_id=long_contract.id)
     normal = Order(amount=20, product_id=notebook.id, contract_id=medium_contract.id)
 
-    session.add_all([easy, big, decent, normal])
+    session.add_all([easy, big, decent, normal])  
     session.commit()
 
 

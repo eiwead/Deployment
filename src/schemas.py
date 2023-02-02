@@ -37,7 +37,7 @@ class Product(ProductBase):
 
     id: int
     factory_id: int
-    orders: list[Order] = []
+    order: list[Order] = []
 
     class Config:
         orm_mode = True
@@ -57,7 +57,7 @@ class FactoryCreate(FactoryBase):
 class Factory(FactoryBase):
 
     id: int
-    products: list[Product] = []
+    product: list[Product] = []
 
 
     class Config:
@@ -81,7 +81,7 @@ class ContractCreate(ContractBase):
 class Contract(ContractBase):
 
     id: int
-    orders: list[Order] = []
+    order: list[Order] = []
 
     class Config:
         orm_mode = True

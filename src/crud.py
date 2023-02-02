@@ -4,7 +4,7 @@ from src import models, schemas
 
 def create_factory(db: Session, factory: schemas.FactoryCreate):
 
-    db_factory = models.Factory(factory_name=factory.factory_name, factory_director=factory.factory_director, factory_phone=factory.factory_phone)
+    db_factory = models.Factory(**factory.dict()) 
     db.add(db_factory)
     db.commit()
     db.refresh(db_factory)
@@ -28,14 +28,6 @@ def create_factory_product(db: Session, product: schemas.ProductCreate, factory_
     db.commit()
     db.refresh(db_product)
     return db_product
-
-# def create_contract_order(db: Session, order: schemas.OrderCreate, contract_id: int, product_id: int):
-
-#     db_order = models.Order(**order.dict(), contract_id=contract_id, product_id=product_id) # pragma: no cover
-#     db.add(db_order)    # pragma: no cover
-#     db.commit() # pragma: no cover
-#     db.refresh(db_order)    # pragma: no cover
-#     return db_order # pragma: no cover
 
 
 def create_product_order(db: Session, order: schemas.OrderCreate, product_id: int, contract_id: int):
@@ -68,10 +60,6 @@ def get_product_by_id(db: Session, product_id: int):
 
 def get_factory_by_name(db: Session, factory_name: str):
     return db.query(models.Factory).filter(models.Factory.factory_name == factory_name).first()
-
-# def get_product_by_name(db: Session, product_name: str):
-
-#     return db.query(models.Product).filter(models.Product.product_name == product_name).first() # pragma: no cover
 
 
 
