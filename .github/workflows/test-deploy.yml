@@ -49,7 +49,6 @@ jobs:
           Host yandex_server
             HostName ${{ secrets.HOST }}
             User ${{ secrets.LOGIN }}
-            Port ${{ secrets.PORT }}
             IdentityFile ~/.ssh/id_rsa
             StrictHostKeyChecking no
           END
