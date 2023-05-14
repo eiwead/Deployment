@@ -16,11 +16,11 @@ spec:                     # Описываем характеристики depl
     spec:
       containers:         # Описываем контейнер
       - name: deployment
-        image: ewead/deployment:latest
+        image: ewead/deployment:1.0
         ports:
         - containerPort: 8000
         env:              # Задаем переменные окружения
-        - name: DB_USER   # Некоторые переменные берутся из Secret
+        - name: DB_USER   # Некоторые переменные берутся из Secret 
           valueFrom:
             secretKeyRef:
               name: dbsecret

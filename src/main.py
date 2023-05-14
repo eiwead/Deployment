@@ -108,6 +108,6 @@ def get_order_by_id(order_id: int, db: Session = Depends(get_db)):
     return db_order
 
 
-
-
-
+@app.get("/version")
+def get_app_version():
+    return {'version': 2.0}
